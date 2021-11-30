@@ -23,6 +23,7 @@ class AuthController extends Controller
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
         ]);
+
         $token = $user->createToken('myapptoken')->plainTextToken;
         $response = [
             'user'=> $user,
@@ -37,23 +38,18 @@ class AuthController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        // Check email
+        
         $user = User::where('email', $fields['email'])->first();
-        // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)){
             return response([
-                'message' => 'Bad credentials'
+                'message' => 'Nie poprawne dane logowania'
             ], 401);
         }
-
-
         $token = $user->createToken('myapptoken')->plainTextToken;
         $response = [
             'user'=> $user,
             'token'=> $token,
         ];
-
         return response($response, 201);
     }
 
@@ -61,7 +57,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return [
-            'message' => 'Logged out'
+            'message' => 'Wylogowano'
         ];
     }
 }

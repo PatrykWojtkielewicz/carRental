@@ -33,4 +33,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    public function rent(){
+        return $this->hasOne(Rent::class);
+    }
 }

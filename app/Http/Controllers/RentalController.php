@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Rent;
+use App\Models\Car;
+use App\Models\Brand;
 
-class UserController extends Controller
+
+class RentalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return Rent::all();
     }
 
     /**
@@ -26,17 +29,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'user_id' => 'required',
+            'car_id' => 'required',
+            'rental_date' => 'required',
+            'return_date' => 'required',
         ]);
-
-        return User::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'email' => $request->email,
-            'password' => $request->password,
+        return Rent::create([
+            'user_id' => $request->user_id,
+            'car_id' => $request->car_id,
+            'rental_date' => $request->rental_date,
+            'return_date' => $request->return_date,
         ]);
     }
 
@@ -48,7 +50,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::find($id);
+        return Rent::find($id);
     }
 
     /**
@@ -60,9 +62,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $user->update($request->all());
-        return $user;
+        $rent = Rent::find($id);
+        $rent->update($request->all());
+        return $rent;
     }
 
     /**
@@ -73,17 +75,18 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return User::destroy($id);
+        return Rent::destroy($id);
     }
 
     /**
      * Search for a name.
      *
-     * @param  str $name
+     * @param  str $brand
      * @return \Illuminate\Http\Response
      */
-    public function search($name)
+    public function search($brand)
     {
-        return User::where('name', 'like', '%'.$name.'%')->get();
+        $brand_id = Brand::where('name', 'like', '%'.$brand.'%')->value('id');
+        return Rent::where('car_id', 'like', '%'.$brand_id.'%')->get();
     }
 }
