@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RentalController;
+use App\Http\Controllers\RentedController;
+use App\Http\Controllers\RentController;
 
 // Unprotected routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -22,10 +23,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    Route::get('/rents', [RentalController::class, 'index']);
-    Route::post('/rents', [RentalController::class, 'store']);
-    Route::get('/rents/{id}', [RentalController::class, 'show']);
-    Route::put('/rents/{id}', [RentalController::class, 'update']);
-    Route::delete('/rents/{id}', [RentalController::class, 'destroy']);
-    Route::get('/rents/search/{brand}', [RentalController::class, 'search']);
+    Route::get('/rented', [RentedController::class, 'index']);
+    Route::get('/rented/{id}', [RentedController::class, 'show']);
+    Route::put('/rented/{id}', [RentedController::class, 'update']);
+    Route::delete('/rented/{id}', [RentedController::class, 'destroy']);
+    Route::get('/rented/search/{brand}', [RentedController::class, 'search']);
+
+    Route::get('/rent', [RentController::class, 'index']);
+    Route::post('/rent', [RentController::class, 'store']);
 });
