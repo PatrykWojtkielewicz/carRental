@@ -37,15 +37,22 @@ class RentController extends Controller
      */
     public function store(RentRequest $request)
     {
-        $rent = Rent::create([
-            'user_id' => $request->user_id,
-            'car_id' => $request->car_id,
-            'rental_date' => $request->rental_date,
-            'return_date' => $request->return_date,
-        ]);
-
-        return response()->json([
-            'rent' => $rent,
-        ], 201);
+        $exists = Rent::where('car_id', '=', $request->car_id)->exists();
+        if(!$exists){
+            $rent = Rent::create([
+                'user_id' => $request->user_id,
+                'car_id' => $request->car_id,
+                'rental_date' => $request->rental_date,
+                'return_date' => $request->return_date,
+            ]);
+            return response()->json([
+                'rent' => $rent,
+            ], 201);
+        }
+        else{
+            return response()->json([
+                'message' => 'Auto jest już wynajęte'
+            ]);
+        }
     }
 }
