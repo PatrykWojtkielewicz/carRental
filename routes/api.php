@@ -7,6 +7,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RentedController;
 use App\Http\Controllers\RentController;
 
+// All users
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/search/{name}', [UserController::class, 'search']);
+
 // Authenticatd users
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -28,10 +35,3 @@ Route::group(['middleware' => ['CheckAdmin']], function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 });
-
-// All users
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/search/{name}', [UserController::class, 'search']);
