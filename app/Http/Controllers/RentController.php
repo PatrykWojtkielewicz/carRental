@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Requests\RentRequest;
 use App\Models\Rent;
 use App\Models\Car;
-use App\Models\Brand;
 
 class RentController extends Controller
 {
@@ -31,14 +31,8 @@ class RentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RentRequest $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'car_id' => 'required',
-            'rental_date' => 'required',
-            'return_date' => 'required',
-        ]);
         return Rent::create([
             'user_id' => $request->user_id,
             'car_id' => $request->car_id,

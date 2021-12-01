@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'surname' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed',
-        ]);
-
+    public function register(RegisterRequest $request){
         $user = User::create([
-            'name' => $fields['name'],
-            'surname' => $fields['surname'],
-            'email' => $fields['email'],
-            'password' => Hash::make($fields['password']),
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -33,14 +28,9 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function login(Request $request){
-        $fields = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
-        ]);
-        
-        $user = User::where('email', $fields['email'])->first();
-        if(!$user || !Hash::check($fields['password'], $user->password)){
+    public function login(LoginRequest $request){
+        $user = User::where('email', $request->email)->first();
+        if(!$user || !Hash::check($request->password, $user->password)){
             return response([
                 'message' => 'Nie poprawne dane logowania'
             ], 401);
@@ -53,7 +43,7 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function logout(Request $request){
+    public function logout(){
         auth()->user()->tokens()->delete();
 
         return [

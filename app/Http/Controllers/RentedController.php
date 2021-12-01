@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rent;
-use App\Models\Car;
 use App\Models\Brand;
 
 
@@ -17,7 +16,12 @@ class RentedController extends Controller
      */
     public function index()
     {
-        return Rent::all();
+        // Display currently rented cars
+        return Rent::select('users.name as Tenant', 'brands.name as Car', 'cars.model as Model', 'rents.rental_date', 'rents.return_date')
+            ->join('users', 'rents.user_id', '=', 'users.id')
+            ->join('cars', 'rents.car_id', '=', 'cars.id')
+            ->join('brands', 'cars.brand_id', '=', 'brands.id')
+            ->get(['users.name as Tenant', 'brands.name as Car', 'cars.model as Model']);
     }
 
     /**
