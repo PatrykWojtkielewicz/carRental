@@ -17,10 +17,9 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $loggedin = auth()->guard('sanctum')->user()->exists();
         $pid = auth()->guard('sanctum')->user()->permission_id;
 
-        if($loggedin && $pid == 1){
+        if($pid == 1){
             return $next($request);
         }
         return response([
