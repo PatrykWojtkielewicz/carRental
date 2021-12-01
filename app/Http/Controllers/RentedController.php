@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rent;
 use App\Models\Brand;
+use App\Http\Resources\RentedResource;
 
 
 class RentedController extends Controller
@@ -17,14 +18,14 @@ class RentedController extends Controller
     public function index()
     {
         // Display currently rented cars
-        $rented = Rent::select('users.name as Tenant', 'brands.name as Car', 'cars.model as Model', 'rents.rental_date', 'rents.return_date')
+        $rented = Rent::select('rents.id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
             ->join('users', 'rents.user_id', '=', 'users.id')
             ->join('cars', 'rents.car_id', '=', 'cars.id')
             ->join('brands', 'cars.brand_id', '=', 'brands.id')
-            ->get(['users.name as Tenant', 'brands.name as Car', 'cars.model as Model']);
+            ->get();
 
         return response()->json([
-            'rented' => $rented,
+            'rented' => RentedResource::collection($rented),
         ]);
     }
 
