@@ -16,7 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return response()->json([
+            'users' => User::all(),
+        ]);
     }
 
     /**
@@ -27,12 +29,16 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        return User::create([
+        $user = User::create([
             'name' => $request->name,
             'surname' => $request->surname,
             'email' => $request->email,
             'password' => $request->password,
         ]);
+
+        return response()->json([
+            'user' => $user,
+        ], 201);
     }
 
     /**
@@ -43,7 +49,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::find($id);
+        return response()->json([
+            'user' => User::find($id),
+        ]);
     }
 
     /**
@@ -57,7 +65,10 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->update($request->all());
-        return $user;
+
+        return response()->json([
+            'updated' => $user,
+        ]);
     }
 
     /**
@@ -68,7 +79,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return User::destroy($id);
+        return response()->json([
+            'deleted' => User::destroy($id),
+        ]);
     }
 
     /**
@@ -79,6 +92,8 @@ class UserController extends Controller
      */
     public function search($name)
     {
-        return User::where('name', 'like', '%'.$name.'%')->get();
+        return response()->json([
+            'users' => User::where('name', 'like', '%'.$name.'%')->get(),
+        ]);
     }
 }

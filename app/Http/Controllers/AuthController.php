@@ -20,12 +20,10 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
-        $response = [
+        return response()->json([
             'user'=> $user,
             'token'=> $token,
-        ];
-
-        return response($response, 201);
+        ], 201);
     }
 
     public function login(LoginRequest $request){
@@ -36,18 +34,17 @@ class AuthController extends Controller
             ], 401);
         }
         $token = $user->createToken('myapptoken')->plainTextToken;
-        $response = [
+        return response()->json([
             'user'=> $user,
             'token'=> $token,
-        ];
-        return response($response, 201);
+        ], 201);
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
 
-        return [
+        return response()->json([
             'message' => 'Wylogowano'
-        ];
+        ]);
     }
 }

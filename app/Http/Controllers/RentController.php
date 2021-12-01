@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Requests\RentRequest;
+use App\Http\Requests\RentRequest;
 use App\Models\Rent;
 use App\Models\Car;
 
@@ -17,12 +17,16 @@ class RentController extends Controller
     public function index()
     {
         // Displays not rented cars with their name, instead of id
-        return Car::select('cars.id', 'brands.name', 'cars.model', 'cars.year', 'cars.mileage')
+        $cars = Car::select('cars.id', 'brands.name', 'cars.model', 'cars.year', 'cars.mileage')
             ->join('brands', 'cars.brand_id', '=', 'brands.id')
             ->whereNotIn('cars.id', function($query){
                 $query->select('car_id')->from('rents');
             })
             ->get();
+
+        return response()->json([
+            'cars' => $cars,
+        ]);
     }
 
     /**
@@ -33,11 +37,15 @@ class RentController extends Controller
      */
     public function store(RentRequest $request)
     {
-        return Rent::create([
+        $rent = Rent::create([
             'user_id' => $request->user_id,
             'car_id' => $request->car_id,
             'rental_date' => $request->rental_date,
             'return_date' => $request->return_date,
         ]);
+
+        return response()->json([
+            'rent' => $rent,
+        ], 201);
     }
 }

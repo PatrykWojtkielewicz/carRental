@@ -17,11 +17,15 @@ class RentedController extends Controller
     public function index()
     {
         // Display currently rented cars
-        return Rent::select('users.name as Tenant', 'brands.name as Car', 'cars.model as Model', 'rents.rental_date', 'rents.return_date')
+        $rented = Rent::select('users.name as Tenant', 'brands.name as Car', 'cars.model as Model', 'rents.rental_date', 'rents.return_date')
             ->join('users', 'rents.user_id', '=', 'users.id')
             ->join('cars', 'rents.car_id', '=', 'cars.id')
             ->join('brands', 'cars.brand_id', '=', 'brands.id')
             ->get(['users.name as Tenant', 'brands.name as Car', 'cars.model as Model']);
+
+        return response()->json([
+            'rented' => $rented,
+        ]);
     }
 
     /**
@@ -32,7 +36,9 @@ class RentedController extends Controller
      */
     public function show($id)
     {
-        return Rent::find($id);
+        return response()->json([
+            'rental' => Rent::find($id),
+        ]);
     }
 
     /**
@@ -44,9 +50,9 @@ class RentedController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rent = Rent::find($id);
-        $rent->update($request->all());
-        return $rent;
+        return response()->json([
+            'updated' => Rent::find($id)->update($request->all()),
+        ]);
     }
 
     /**
@@ -57,7 +63,9 @@ class RentedController extends Controller
      */
     public function destroy($id)
     {
-        return Rent::destroy($id);
+        return response()->json([
+            'deleted' => Rent::destroy($id),
+        ]);
     }
 
     /**
@@ -69,6 +77,8 @@ class RentedController extends Controller
     public function search($brand)
     {
         $brand_id = Brand::where('name', 'like', '%'.$brand.'%')->value('id');
-        return Rent::where('car_id', 'like', '%'.$brand_id.'%')->get();
+        return response()->json([
+            'cars' => Rent::where('car_id', 'like', '%'.$brand_id.'%')->get(),
+        ]);
     }
 }
