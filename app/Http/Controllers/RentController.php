@@ -40,7 +40,7 @@ class RentController extends Controller
         $exists = Rent::where('car_id', '=', $request->car_id)->exists();
         if(!$exists){
             $rent = Rent::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->user()->id,
                 'car_id' => $request->car_id,
                 'rental_date' => $request->rental_date,
                 'return_date' => $request->return_date,

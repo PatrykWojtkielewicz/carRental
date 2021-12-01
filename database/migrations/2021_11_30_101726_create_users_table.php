@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('surname');
             $table->string('email');
             $table->string('password');
+            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

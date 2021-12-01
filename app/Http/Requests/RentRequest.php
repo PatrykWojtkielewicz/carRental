@@ -24,7 +24,6 @@ class RentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'car_id' => 'required',
             'rental_date' => 'required',
             'return_date' => 'required',
@@ -39,7 +38,6 @@ class RentRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id.required' => 'ID użytkownika jest wymagane jest wymagane',
             'car_id.required' => 'ID auta jest wymagane jest wymagane',
             'rental_date.required' => 'Data wyjnajęcia jest wymagana',
             'return_date.required' => 'Data zwrotu jest wymagana',

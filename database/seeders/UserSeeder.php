@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'surname' => 'adminadmin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin1234'),
+            'permission_id' => '1',
         ]);
         for($i=0; $i<10; $i++){
             User::create([
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
                 'surname' => 'user'.($i+1).'user',
                 'email' => ('user'.($i+1)).'@user.com',
                 'password' => Hash::make('user1234'),
+                'permission_id' => '2',
             ]);
         }
     }

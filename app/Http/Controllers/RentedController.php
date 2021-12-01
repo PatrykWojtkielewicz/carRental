@@ -38,7 +38,7 @@ class RentedController extends Controller
     public function show($id)
     {
         return response()->json([
-            'rental' => Rent::find($id),
+            'rental' => Rent::where('car_id', '=', $id),
         ]);
     }
 

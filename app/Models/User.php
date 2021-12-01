@@ -36,4 +36,7 @@ class User extends Authenticatable
     public function rent(){
         return $this->hasOne(Rent::class);
     }
+    public function permission(){
+        return $this->belongsTo(Permission::class);
+    }
 }
