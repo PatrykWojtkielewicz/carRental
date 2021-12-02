@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Rent;
 use App\Models\Brand;
 use App\Models\Car;
@@ -26,8 +27,9 @@ class RentedController extends Controller
             ->get();
 
         return response()->json([
+            'status' => true,
             'rented' => RentedResource::collection($rented),
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -36,14 +38,21 @@ class RentedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Rent $rent)
     {
-        // If argument passed is an id
+        return response()->json([
+            'status' => true,
+            'rental' => $rent,
+        ], Response::HTTP_OK);
+
+        //* Code below makes possible showing cars also by their brand
+        /* // If argument passed is an id
         if(ctype_digit($id)){
             $rental = Rent::all()->where('car_id', '=', $id);
             return response()->json([
+                'status' => true,
                 'rental' => $rental,
-            ]);
+            ], Response::HTTP_OK);
         }
         // If arugment passed is a string
         else{
@@ -63,9 +72,10 @@ class RentedController extends Controller
                 }
             }
             return response()->json([
+                'status' => true,
                 'rental' => $cars,
-            ]);
-        }
+            ], Response::HTTP_OK);
+        } */
     }
 
     /**
@@ -75,23 +85,29 @@ class RentedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Rent $rent)
     {
-        $unavailable = Rent::where('car_id', '=', $request->car_id)->exists();
-        $updated = false;
+        $carInUse = Rent::where('car_id', '=', $request->car_id)->exists();
 
-        if(!$unavailable){
-            $updated = Rent::where('car_id', '=', $id)->update([
+        if(!$carInUse){
+            $rent->update([
                 'car_id' => $request->car_id,
                 'rental_date' => $request->rental_date,
                 'return_date' => $request->return_date,
             ]);
+            return response()->json([
+                'status' => true,
+                'car_unavailable' => false,
+                'updated' => true,
+            ], Response::HTTP_CREATED);
         }
-
-        return response()->json([
-            'car_unavailable' => $unavailable,
-            'updated' => $updated,
-        ], 201);
+        else{
+            return response()->json([
+                'status' => false,
+                'car_unavailable' => true,
+                'updated' => false,
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -100,11 +116,12 @@ class RentedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Rent $rent)
     {
         return response()->json([
-            'deleted' => Rent::destroy($id),
-        ]);
+            'status' => true,
+            'deleted' => $rent->delete(),
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -117,7 +134,8 @@ class RentedController extends Controller
     {
         $brand_id = Brand::where('name', 'like', '%'.$brand.'%')->value('id');
         return response()->json([
+            'status' => true,
             'cars' => Rent::where('car_id', 'like', '%'.$brand_id.'%')->get(),
-        ]);
+        ], Response::HTTP_OK);
     }
 }

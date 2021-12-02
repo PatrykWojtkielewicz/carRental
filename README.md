@@ -5,6 +5,8 @@
 * [Users](#users)
 * [Other](#other)
 
+# NOT UP TO DATE
+
 ## Authentication
 Available only for **unauthenticated users**:
 * Register (post) -> register -> name, email, surname, password

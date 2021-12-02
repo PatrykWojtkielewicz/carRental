@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
@@ -22,30 +22,33 @@ class AuthController extends Controller
 
         $token = $user->createToken('myapptoken')->plainTextToken;
         return response()->json([
+            'status' => true,
             'user'=> $user,
             'token'=> $token,
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function login(LoginRequest $request){
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password, $user->password)){
             return response([
+                'status' => true,
                 'message' => 'Nie poprawne dane logowania'
-            ], 401);
+            ], Response::HTTP_UNAUTHORIZED);
         }
         $token = $user->createToken('myapptoken')->plainTextToken;
         return response()->json([
             'user'=> $user,
             'token'=> $token,
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
 
         return response()->json([
+            'status' => true,
             'message' => 'Wylogowano'
-        ]);
+        ], Response::HTTP_OK);
     }
 }

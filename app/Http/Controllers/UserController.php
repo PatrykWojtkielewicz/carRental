@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 
@@ -17,8 +18,9 @@ class UserController extends Controller
     public function index()
     {
         return response()->json([
+            'status' => true,
             'users' => User::all(),
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -37,8 +39,9 @@ class UserController extends Controller
         ]);
 
         return response()->json([
+            'status' => true,
             'user' => $user,
-        ], 201);
+        ], Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -47,11 +50,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         return response()->json([
-            'user' => User::find($id),
-        ]);
+            'status' => true,
+            'user' => $user,
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -61,14 +65,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, User $user)
     {
-        $user = User::find($id);
         $user->update($request->all());
 
         return response()->json([
+            'status' => true,
             'updated' => $user,
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -77,11 +81,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
         return response()->json([
-            'deleted' => User::destroy($id),
-        ]);
+            'status' => true,
+            'deleted' => $user->delete(),
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -90,10 +95,11 @@ class UserController extends Controller
      * @param  str $name
      * @return \Illuminate\Http\Response
      */
-    public function search($name)
+    public function search(User $name)
     {
         return response()->json([
+            'status' => true,
             'users' => User::where('name', 'like', '%'.$name.'%')->get(),
-        ]);
+        ], Response::HTTP_OK);
     }
 }

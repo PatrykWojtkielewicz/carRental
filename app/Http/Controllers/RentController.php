@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\RentRequest;
 use App\Models\Rent;
 use App\Models\Car;
@@ -25,8 +26,9 @@ class RentController extends Controller
             ->get();
 
         return response()->json([
+            'status' => true,
             'cars' => $cars,
-        ]);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -46,13 +48,15 @@ class RentController extends Controller
                 'return_date' => $request->return_date,
             ]);
             return response()->json([
+                'status' => true,
                 'rent' => $rent,
-            ], 201);
+            ], Response::HTTP_CREATED);
         }
         else{
             return response()->json([
+                'status' => true,
                 'message' => 'Auto jest już wynajęte'
-            ]);
+            ], Response::HTTP_FORBIDDEN);
         }
     }
 }

@@ -23,17 +23,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // Admins
 Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
     Route::get('/rented', [RentedController::class, 'index']);
-    Route::get('/rented/{id}', [RentedController::class, 'show']);
-    Route::put('/rented/{id}', [RentedController::class, 'update']);
-    Route::delete('/rented/{id}', [RentedController::class, 'destroy']);
+    Route::get('/rented/{rent}', [RentedController::class, 'show']);
+    Route::put('/rented/{rent}', [RentedController::class, 'update']);
+    Route::delete('/rented/{rent}', [RentedController::class, 'destroy']);
     Route::get('/rented/search/{brand}', [RentedController::class, 'search']);
 
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/search/{name}', [UserController::class, 'search']);
     Route::post('/users', [UserController::class, 'store']);
-    Route::get('/users/{id}', [UserController::class, 'show']);
-    Route::put('/users/{id}', [UserController::class, 'update']);
-    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
     Route::get('/overdue', [OverdueController::class, 'index']);
 });
