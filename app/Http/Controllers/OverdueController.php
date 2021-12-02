@@ -16,7 +16,7 @@ class OverdueController extends Controller
     public function index()
     {
         // Display currently rented cars
-        $overdued = Rent::select('rents.id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
+        $overdued = Rent::select('cars.id as car_id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
         ->join('users', 'rents.user_id', '=', 'users.id')
         ->join('cars', 'rents.car_id', '=', 'cars.id')
         ->join('brands', 'cars.brand_id', '=', 'brands.id')

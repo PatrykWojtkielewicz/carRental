@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rent;
 use App\Models\Brand;
+use App\Models\Car;
 use App\Http\Resources\RentedResource;
 
 
@@ -18,7 +19,7 @@ class RentedController extends Controller
     public function index()
     {
         // Display currently rented cars
-        $rented = Rent::select('rents.id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
+        $rented = Rent::select('cars.id as car_id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
             ->join('users', 'rents.user_id', '=', 'users.id')
             ->join('cars', 'rents.car_id', '=', 'cars.id')
             ->join('brands', 'cars.brand_id', '=', 'brands.id')
@@ -37,9 +38,34 @@ class RentedController extends Controller
      */
     public function show($id)
     {
-        return response()->json([
-            'rental' => Rent::where('car_id', '=', $id),
-        ]);
+        // If argument passed is an id
+        if(ctype_digit($id)){
+            $rental = Rent::all()->where('car_id', '=', $id);
+            return response()->json([
+                'rental' => $rental,
+            ]);
+        }
+        // If arugment passed is a string
+        else{
+            $brand_id = Brand::where('name', 'like', '%'.$id.'%')->value('id');
+            $allcars = Car::where('brand_id', '=', $brand_id)->get();
+            $cars = [];
+            foreach($allcars as $car){
+                $exists = Rent::where('rents.car_id', '=', $car->id)->exists();
+                if($exists){
+                    $rented = Rent::select('cars.id as car_id', 'users.name as username', 'brands.name', 'cars.model', 'rents.rental_date', 'rents.return_date')
+                        ->where('rents.car_id', '=', $car->id)
+                        ->join('users', 'rents.user_id', '=', 'users.id')
+                        ->join('cars', 'rents.car_id', '=', 'cars.id')
+                        ->join('brands', 'cars.brand_id', '=', 'brands.id')
+                        ->get();
+                    array_push($cars, $rented);
+                }
+            }
+            return response()->json([
+                'rental' => $cars,
+            ]);
+        }
     }
 
     /**
