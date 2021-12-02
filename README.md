@@ -22,9 +22,9 @@ Available only for **authenticated users**:
 ## Rented cars
 Available only for **admins**:
 * Rented (get) -> index
-* Rented (get) -> show -> id
+* Rented (get) -> show -> car_id
     * ``` api/rented/1 ```
-* Rented (put) -> update -> id
+* Rented (put) -> update -> car_id
     * ``` api/rented/1 ```
 * Rented (delete) -> destroy -> id
     * ``` api/rented/1 ```
@@ -38,7 +38,7 @@ Available only for **admins**:
 Available only for **admins**:
 * Users (get) -> index
 * Users (get) -> search -> name
-    * ``` api/users/search/xyz ```
+    * ``` api/users/search/name ```
 * Users (post) -> store -> name, surname, email, password
 * Users (get) -> show -> id
     * ``` api/users/1 ```

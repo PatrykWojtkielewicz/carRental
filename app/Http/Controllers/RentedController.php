@@ -77,9 +77,21 @@ class RentedController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $unavailable = Rent::where('car_id', '=', $request->car_id)->exists();
+        $updated = false;
+
+        if(!$unavailable){
+            $updated = Rent::where('car_id', '=', $id)->update([
+                'car_id' => $request->car_id,
+                'rental_date' => $request->rental_date,
+                'return_date' => $request->return_date,
+            ]);
+        }
+
         return response()->json([
-            'updated' => Rent::find($id)->update($request->all()),
-        ]);
+            'car_unavailable' => $unavailable,
+            'updated' => $updated,
+        ], 201);
     }
 
     /**
