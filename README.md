@@ -9,7 +9,7 @@
 Available only for **unauthenticated users**:
 * Register (post) -> register -> name, email, surname, password
 * Login (post) -> login ->email, password
-Available only for authenticated users:
+Available only for **authenticated users**:
 * Logout (post) -> logout
 
 
