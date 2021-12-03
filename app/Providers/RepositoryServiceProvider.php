@@ -15,5 +15,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\RentInterface',
             'App\Repositories\RentRepository'
         );
+        $this->app->bind(
+            'App\Interfaces\AuthInterface',
+            'App\Repositories\AuthRepository'
+        );
     }
 }
