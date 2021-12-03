@@ -15,7 +15,6 @@ Route::post('/login', [AuthController::class, 'login']);
 // Authenticatd users
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-
     Route::get('/rent', [RentController::class, 'index']);
     Route::post('/rent', [RentController::class, 'store']);
 });

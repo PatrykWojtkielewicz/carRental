@@ -11,5 +11,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\UserInterface',
             'App\Repositories\UserRepository'
         );
+        $this->app->bind(
+            'App\Interfaces\RentInterface',
+            'App\Repositories\RentRepository'
+        );
     }
 }
