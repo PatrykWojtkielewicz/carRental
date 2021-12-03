@@ -2,91 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Interfaces\UserInterface;
 use App\Models\User;
-
 
 class UserController extends Controller
 {
+    protected $userInterface;
+
+    /**
+     * Create a new constructor for this controller
+     */
+    public function __construct(UserInterface $userInterface){
+        $this->userInterface = $userInterface;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return response()->json([
-            'status' => true,
-            'users' => User::all(),
-        ], Response::HTTP_OK);
+    public function index(){
+        return $this->userInterface->getUsers();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'user' => $user,
-        ], Response::HTTP_ACCEPTED);
+        return $this->userInterface->storeUser($request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
-        return response()->json([
-            'status' => true,
-            'user' => $user,
-        ], Response::HTTP_OK);
+        return $this->userInterface->showUser($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
-
-        return response()->json([
-            'status' => true,
-            'updated' => $user,
-        ], Response::HTTP_CREATED);
+        return $this->userInterface->updateUser($request, $user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
-        return response()->json([
-            'status' => true,
-            'deleted' => $user->delete(),
-        ], Response::HTTP_OK);
+        return $this->userInterface->destroyUser($user);
     }
 
     /**
@@ -95,11 +80,8 @@ class UserController extends Controller
      * @param  str $name
      * @return \Illuminate\Http\Response
      */
-    public function search(User $name)
+    public function search($name)
     {
-        return response()->json([
-            'status' => true,
-            'users' => User::where('name', 'like', '%'.$name.'%')->get(),
-        ], Response::HTTP_OK);
+        return $this->userInterface->searchUser($name);
     }
 }

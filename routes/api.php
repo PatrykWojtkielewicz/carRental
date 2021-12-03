@@ -29,11 +29,11 @@ Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
     Route::get('/rented/search/{brand}', [RentedController::class, 'search']);
 
     Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/search/{name}', [UserController::class, 'search']);
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    Route::get('/users/search/{name}', [UserController::class, 'search']);
 
     Route::get('/overdue', [OverdueController::class, 'index']);
 });
