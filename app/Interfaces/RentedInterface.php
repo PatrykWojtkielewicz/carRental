@@ -16,6 +16,15 @@ interface RentedInterface
     public function getRentals();
 
     /**
+     * Show specified rental
+     * 
+     * @param \App\Models\Rent $rent
+     * @method GET api/rented/{rent}
+     * @access public
+     */
+    public function showRental(Rent $rent);
+
+    /**
      * Update specified rental
      * 
      * @param \App\Http\Requests\RentedRequest $request

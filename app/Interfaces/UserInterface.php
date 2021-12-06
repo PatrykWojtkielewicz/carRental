@@ -51,13 +51,4 @@ interface UserInterface{
      * @access public
      */
     public function destroyUser(User $user);
-
-    /**
-     * Search for specified user
-     * 
-     * @param  str $name
-     * @method GET api/users/search/{name}
-     * @access public
-     */
-    public function searchUser($name);
 }

@@ -22,6 +22,10 @@ class RentedRepository implements RentedInterface
         return ["Rented cars", false, $rented, 200];
     }
 
+    public function showRental(Rent $rent){
+        return ["Specified car", false, $rent, 200];
+    }
+
     public function updateRental(RentedRequest $request, Rent $rent){
         $carInUse = Rent::where('car_id', '=', $request->car_id)->exists();
 

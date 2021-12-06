@@ -26,13 +26,11 @@ Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
     Route::put('/rented/{rent}', [RentedController::class, 'update']);
     Route::delete('/rented/{rent}', [RentedController::class, 'destroy']);
 
-    //! improve repo pattern
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
-    Route::get('/users/search/{name}', [UserController::class, 'search']);
 
     //* This route is all contained in app/Http/Controllers/OverdueController.php
     Route::get('/overdue', [OverdueController::class, 'index']);

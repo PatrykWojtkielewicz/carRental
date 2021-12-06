@@ -10,6 +10,7 @@ use App\Models\Rent;
 use App\Models\Brand;
 use App\Models\Car;
 use App\Interfaces\RentedInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
 class RentedController extends Controller
 {
@@ -44,11 +45,13 @@ class RentedController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Rent $rent){
+        $data = $this->rentedInterface->showRental($rent);
+
         return response()->json([
-            'message' => 'Rental car',
-            'error' => false,
-            'results' => $rent,
-        ], 200);
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**

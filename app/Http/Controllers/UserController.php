@@ -26,7 +26,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return $this->userInterface->getUsers();
+        $data = $this->userInterface->getUsers();
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -37,7 +43,13 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        return $this->userInterface->storeUser($request);
+        $data = $this->userInterface->storeUser($request);
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -48,7 +60,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->userInterface->showUser($user);
+        $data = $this->userInterface->showUser($user);
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -60,7 +78,13 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        return $this->userInterface->updateUser($request, $user);
+        $data = $this->userInterface->updateUser($request, $user);
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -71,17 +95,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        return $this->userInterface->destroyUser($user);
-    }
+        $data = $this->userInterface->destroyUser($user);
 
-    /**
-     * Search for a name.
-     *
-     * @param  str $name
-     * @return \Illuminate\Http\Response
-     */
-    public function search($name)
-    {
-        return $this->userInterface->searchUser($name);
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 }
