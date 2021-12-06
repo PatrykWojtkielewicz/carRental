@@ -19,7 +19,7 @@ class RentedRepository implements RentedInterface
             ->join('cars', 'rents.car_id', '=', 'cars.id')
             ->join('brands', 'cars.brand_id', '=', 'brands.id')
             ->get();
-        return $rented;
+        return ["Rented cars", false, $rented, 200];
     }
 
     public function updateRental(RentedRequest $request, Rent $rent){
@@ -32,11 +32,11 @@ class RentedRepository implements RentedInterface
                 'rental_date' => $request->rental_date,
                 'return_date' => $request->return_date,
             ]);
-            return $updated;
+            return ["Rented car updated", false, $updated, 200];
         }
     }
 
     public function destroyRental(Rent $rent){
-        return $rent->delete();
+        return ["Rented car deleted", false, $rent->delete(), 200];
     }
 }

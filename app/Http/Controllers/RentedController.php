@@ -31,10 +31,10 @@ class RentedController extends Controller
         $data = $this->rentedInterface->getRentals();
 
         return response()->json([
-            'message' => 'All rented cars',
-            'error' => false,
-            'results' => $data,
-        ], 200);
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -45,10 +45,10 @@ class RentedController extends Controller
      */
     public function show(Rent $rent){
         return response()->json([
-            'message' => 'Rented car',
+            'message' => 'Rental car',
             'error' => false,
             'results' => $rent,
-        ]);
+        ], 200);
     }
 
     /**
@@ -62,10 +62,10 @@ class RentedController extends Controller
         $data = $this->rentedInterface->updateRental($request, $rent);
 
         return response()->json([
-            'message' => 'Updated car',
-            'error' => false,
-            'results' => $data,
-        ], 200);
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -78,10 +78,10 @@ class RentedController extends Controller
         $data = $this->rentedInterface->destroyRental($rent);
 
         return response()->json([
-            'message' => 'Deleted car',
-            'error' => false,
-            'results' => $data,
-        ], 200);
+            'message' => $data[0],
+            'error' => $data[1],
+            'results' => $data[2],
+        ], $data[3]);
     }
 
 }

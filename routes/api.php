@@ -9,7 +9,6 @@ use App\Http\Controllers\RentController;
 use App\Http\Controllers\OverdueController;
 
 // Unauthenticated users
-//! improve repo pattern
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
