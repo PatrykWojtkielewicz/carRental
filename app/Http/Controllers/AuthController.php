@@ -29,11 +29,11 @@ class AuthController extends Controller
         $data = $this->authInterface->register($request);
 
         return response()->json([
-            'message' => 'Registered user',
-            'error' => false,
-            'user' => $data[0],
-            'token' => $data[1],
-        ]);
+            'message' => $data[0],
+            'error' => $data[1],
+            'user' => $data[2],
+            'token' => $data[3],
+        ], $data[4]);
     }
 
     /**
@@ -46,11 +46,11 @@ class AuthController extends Controller
         $data = $this->authInterface->login($request);
 
         return response()->json([
-            'message' => 'Logged in user',
-            'error' => false,
-            'user' => $data[0],
-            'token' => $data[1],
-        ]);
+            'message' => $data[0],
+            'error' => $data[1],
+            'user' => $data[2],
+            'token' => $data[3],
+        ], $data[4]);
     }
 
     /**
@@ -62,8 +62,8 @@ class AuthController extends Controller
         $data = $this->authInterface->logout();
 
         return response()->json([
-            'message' => $data,
-            'error' => false,
-        ]);
+            'message' => $data[0],
+            'error' => $data[1],
+        ], $data[2]);
     }
 }

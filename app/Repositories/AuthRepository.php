@@ -21,7 +21,7 @@ class AuthRepository implements AuthInterface
         ]);
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        return [$user, $token];
+        return ["User registered", false, $user, $token, 200];
     }
 
     public function login(LoginRequest $request){
@@ -31,11 +31,11 @@ class AuthRepository implements AuthInterface
         }
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        return [$user, $token];
+        return ["User logged in", false, $user, $token, 200];
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
-        return "User logged out";
+        return ["User logged out", false, 200];
     }
 }
