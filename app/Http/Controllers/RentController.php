@@ -25,7 +25,13 @@ class RentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return $this->rentInterface->notRented();
+        $data = $this->rentInterface->notRented();
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'cars' => $data[2],
+        ], $data[3]);
     }
 
     /**
@@ -36,6 +42,12 @@ class RentController extends Controller
      */
     public function store(RentRequest $request)
     {
-        return $this->rentInterface->storeRent($request);
+        $data = $this->rentInterface->storeRent($request);
+
+        return response()->json([
+            'message' => $data[0],
+            'error' => $data[1],
+            'cars' => $data[2],
+        ], $data[3]);
     }
 }
