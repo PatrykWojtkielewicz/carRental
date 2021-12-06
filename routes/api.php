@@ -9,10 +9,12 @@ use App\Http\Controllers\RentController;
 use App\Http\Controllers\OverdueController;
 
 // Unauthenticated users
+//! improve repo pattern
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Authenticatd users
+//! improve repo pattern
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/rent', [RentController::class, 'index']);
@@ -26,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
     Route::put('/rented/{rent}', [RentedController::class, 'update']);
     Route::delete('/rented/{rent}', [RentedController::class, 'destroy']);
 
+    //! improve repo pattern
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);

@@ -26,7 +26,14 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function register(RegisterRequest $request){
-        return $this->authInterface->register($request);
+        $data = $this->authInterface->register($request);
+
+        return response()->json([
+            'message' => 'Registered user',
+            'error' => false,
+            'user' => $data[0],
+            'token' => $data[1],
+        ]);
     }
 
     /**
@@ -36,7 +43,14 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request){
-        return $this->authInterface->login($request);
+        $data = $this->authInterface->login($request);
+
+        return response()->json([
+            'message' => 'Logged in user',
+            'error' => false,
+            'user' => $data[0],
+            'token' => $data[1],
+        ]);
     }
 
     /**
@@ -45,6 +59,11 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function logout(){
-        return $this->authInterface->logout();
+        $data = $this->authInterface->logout();
+
+        return response()->json([
+            'message' => $data,
+            'error' => false,
+        ]);
     }
 }

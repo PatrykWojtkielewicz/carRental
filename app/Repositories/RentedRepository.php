@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Http\Requests\RentedRequest;
 use App\Interfaces\RentedInterface;
-use App\Traits\ResponseTrait;
 use App\Models\Rent;
 use App\Models\Brand;
 use App\Models\Car;
@@ -12,7 +11,6 @@ use App\Models\User;
 
 class RentedRepository implements RentedInterface
 {
-    use ResponseTrait;
 
     public function getRentals(){
         //select `cars`.`id` as car_id, `users`.`name` as username, `brands`.`name`, `cars`.`model`, `rents`.`rental_date`, `rents`.`return_date` from `rents` inner join `users` on `rents`.`user_id` = `users`.`id` inner join `cars` on `rents`.`car_id` = `cars`.`id` inner join `brands` on `cars`.`brand_id` = `brands`.`id`;
