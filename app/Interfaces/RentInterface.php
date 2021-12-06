@@ -17,7 +17,7 @@ interface RentInterface
     /**
      * Store new rental
      * 
-     * @param  \Illuminate\Http\RentRequest  $request
+     * @param  \App\Http\Requests\RentRequest  $request
      * @method POST api/rent
      * @access public
      */

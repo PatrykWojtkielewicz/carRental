@@ -12,27 +12,38 @@ trait ResponseTrait{
      * @param boolean $isSuccess
      */
     public function coreResponse($message, $data=null, $statusCode, $isSuccess = true){
-        if(!$message){
-            return response()->json([
-                'message' => 'Message is required',
-            ], 500);
-        }
+        // if(!$message){
+        //     return response()->json([
+        //         'message' => 'Message is required',
+        //     ], 500);
+        // }
+        // if($isSuccess){
+            // echo response()->json([
+            //     'message' => $message,
+            //     'error' => false,
+            //     'code' => $statusCode,
+            //     'results' => $data,
+            // ], $statusCode);
+            // echo("[isSuccess: ".$isSuccess."]");
+            // echo("[message: ".$message."]");
+            // echo("[error: ".false."]");
+            // echo("[code: ".$statusCode."]");
+            // echo("[results: ".$data."]");
+        return response()->json([
+            'message' => $message,
+            'error' => false,
+            'code' => $statusCode,
+            'results' => $data,
+        ], $statusCode);
 
-        if($isSuccess){
-            return response()->json([
-                'message' => $message,
-                'error' => false,
-                'code' => $statusCode,
-                'results' => $data,
-            ], $statusCode);
-        }
-        else{
-            return response()->json([
-                'message' => $message,
-                'error' => true,
-                'code' => $statusCode,
-            ], $statusCode);
-        }
+        // }
+        // else{
+        //     return response()->json([
+        //         'message' => $message,
+        //         'error' => true,
+        //         'code' => $statusCode,
+        //     ], $statusCode);
+        // }
     }
 
     /**
@@ -47,7 +58,7 @@ trait ResponseTrait{
     }
 
     /**
-     * Send any success response
+     * Send any error response
      * 
      * @param string $message
      * @param integer $statusCode

@@ -9,7 +9,6 @@ use App\Http\Controllers\RentController;
 use App\Http\Controllers\OverdueController;
 
 // Unauthenticated users
-//! TODO: Repository pattern here
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -22,12 +21,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Admins
 Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
-    //! TODO: Repository pattern here
     Route::get('/rented', [RentedController::class, 'index']);
     Route::get('/rented/{rent}', [RentedController::class, 'show']);
     Route::put('/rented/{rent}', [RentedController::class, 'update']);
     Route::delete('/rented/{rent}', [RentedController::class, 'destroy']);
-    Route::get('/rented/search/{brand}', [RentedController::class, 'search']);
 
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
@@ -36,6 +33,6 @@ Route::group(['middleware' => ['auth:sanctum', 'CheckAdmin']], function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
     Route::get('/users/search/{name}', [UserController::class, 'search']);
 
-    //! TODO: Repository pattern here
+    //* This route is all contained in app/Http/Controllers/OverdueController.php
     Route::get('/overdue', [OverdueController::class, 'index']);
 });
