@@ -10,7 +10,6 @@ use App\Models\Rent;
 use App\Models\Brand;
 use App\Models\Car;
 use App\Interfaces\RentedInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
 class RentedController extends Controller
 {
